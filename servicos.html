@@ -9,38 +9,134 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    /* ===== RESET & BASE ===== */
     *{margin:0;padding:0;box-sizing:border-box;}
     html{scroll-behavior:smooth;}
-    body{margin:0;background:#0d0b0a;}
+    body{margin:0;background:#0d0b0a;overflow-x:hidden;}
     ::selection{background:rgba(255,122,0,0.3);color:#fff;}
+    img{max-width:100%;display:block;}
+
     @keyframes ksPulse{0%,100%{opacity:.55}50%{opacity:.9}}
+
+    /* ===== INTERACTIVE ===== */
     .ks-link:hover{color:#fff !important;}
     .ks-navlink{position:relative;}
     .ks-navlink::after{content:'';position:absolute;left:0;bottom:-6px;height:2px;width:0;background:linear-gradient(90deg,#FFB020,#FF6A00);transition:width .35s cubic-bezier(.22,1,.36,1);}
     .ks-navlink:hover::after{width:100%;}
     .ks-btn-primary{transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s;}
     .ks-btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 50px rgba(255,106,0,0.5) !important;}
-    .ks-btn-ghost{transition:border-color .35s,color .35s,background .35s;}
-    .ks-btn-ghost:hover{border-color:rgba(255,255,255,0.6) !important;background:rgba(255,255,255,0.04) !important;}
     .ks-srv{transition:transform .5s cubic-bezier(.22,1,.36,1),border-color .4s,background .4s;}
-    .ks-srv:hover{transform:translateY(-6px);border-color:rgba(255,122,0,0.4) !important;background:#1b1510 !important;}
+    .ks-srv:hover{transform:translateY(-4px);border-color:rgba(255,122,0,0.4) !important;background:#1b1510 !important;}
+
+    /* ===== HAMBURGER ===== */
+    .ks-hamburger{
+      display:none;
+      flex-direction:column;
+      gap:5px;
+      cursor:pointer;
+      padding:10px 6px;
+      background:none;
+      border:none;
+      z-index:201;
+      flex-shrink:0;
+    }
+    .ks-hamburger span{
+      width:22px;height:2px;
+      background:#f4efe9;
+      border-radius:2px;
+      display:block;
+      transition:all .35s cubic-bezier(.22,1,.36,1);
+    }
+    .ks-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+    .ks-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+    .ks-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+    /* ===== MOBILE NAV ===== */
+    .ks-mobile-nav{
+      position:fixed;inset:0;
+      z-index:200;
+      background:rgba(10,9,8,0.98);
+      backdrop-filter:blur(24px);
+      -webkit-backdrop-filter:blur(24px);
+      display:flex;
+      flex-direction:column;
+      align-items:stretch;
+      justify-content:center;
+      padding:80px 28px 56px;
+      transform:translateX(100%);
+      transition:transform .42s cubic-bezier(.22,1,.36,1);
+      pointer-events:none;
+    }
+    .ks-mobile-nav.open{
+      transform:none;
+      pointer-events:all;
+    }
+    .ks-mnav-link{
+      display:block;
+      font-family:'Space Grotesk',sans-serif;
+      font-weight:600;
+      font-size:28px;
+      color:#b4aaa0;
+      text-decoration:none;
+      padding:17px 0;
+      letter-spacing:-0.02em;
+      border-bottom:1px solid rgba(255,255,255,0.07);
+      transition:color .2s;
+    }
+    .ks-mnav-link:active,.ks-mnav-link:focus{color:#fff;outline:none;}
+    .ks-mnav-cta{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      margin-top:32px;
+      background:linear-gradient(135deg,#FFB020,#FF6A00);
+      color:#1a0f06 !important;
+      font-family:'Manrope',sans-serif;
+      font-weight:700;
+      font-size:17px;
+      padding:18px 32px;
+      border-radius:999px;
+      text-decoration:none;
+      border:none !important;
+      box-shadow:0 14px 40px rgba(255,106,0,0.4);
+      min-height:56px;
+    }
+
+    /* ===== BREAKPOINTS ===== */
     @media(max-width:900px){
-      .ks-section-pad{padding-left:24px !important;padding-right:24px !important;}
-      .ks-srv-row{grid-template-columns:1fr !important;}
       .ks-nav-mid{display:none !important;}
-      .ks-h1{font-size:46px !important;}
-      .ks-footer-grid{grid-template-columns:1fr !important;}
+      .ks-header-cta{display:none !important;}
+      .ks-hamburger{display:flex;}
+      .ks-section-pad{padding-left:20px !important;padding-right:20px !important;}
+      .ks-h1{font-size:42px !important;line-height:1.08 !important;}
+      .ks-hero-p{font-size:17px !important;}
+      .ks-srv-row{grid-template-columns:1fr !important;}
+      .ks-srv-card{padding:28px 22px !important;}
+      .ks-footer-grid{grid-template-columns:1fr !important;gap:32px !important;}
+      .ks-cta-box{padding:52px 28px !important;}
+      .ks-cta-h2{font-size:34px !important;}
+      .ks-cta-p{font-size:16px !important;}
+    }
+    @media(max-width:600px){
+      .ks-section-pad{padding-left:16px !important;padding-right:16px !important;}
+      .ks-h1{font-size:34px !important;line-height:1.1 !important;}
+      .ks-cta-h2{font-size:28px !important;}
+      .ks-cta-box{padding:40px 20px !important;}
+      .ks-srv-card{padding:22px 18px !important;}
+      .ks-feat-tag{font-size:13px !important;padding:12px 14px !important;}
     }
   </style>
 </head>
 <body>
 <div id="ks-root" style="background:#0d0b0a;color:#f4efe9;font-family:'Manrope',sans-serif;position:relative;width:100%;-webkit-font-smoothing:antialiased;">
 
+  <!-- ===== HEADER ===== -->
   <header id="ks-header" style="position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:1px solid transparent;transition:background .4s,border-color .4s;">
-    <div class="ks-section-pad" style="max-width:1280px;margin:0 auto;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
-      <a href="index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;">
-        <img src="assets/kystone-logo.png" alt="Kystone" style="width:40px;height:40px;border-radius:50%;box-shadow:0 6px 22px rgba(255,106,0,0.4);">
-        <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:23px;letter-spacing:-0.02em;color:#fff;">Kystone</span>
+    <div class="ks-section-pad" style="max-width:1280px;margin:0 auto;padding:18px 48px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+      <a href="index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;flex-shrink:0;">
+        <img src="assets/kystone-logo.png" alt="Kystone" style="width:38px;height:38px;border-radius:50%;box-shadow:0 6px 22px rgba(255,106,0,0.4);">
+        <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:22px;letter-spacing:-0.02em;color:#fff;">Kystone</span>
       </a>
       <nav class="ks-nav-mid" style="display:flex;align-items:center;gap:38px;font-size:15px;font-weight:500;color:#b4aaa0;">
         <a class="ks-link ks-navlink" href="servicos.html" style="color:#fff;text-decoration:none;transition:color .3s;">Serviços</a>
@@ -48,137 +144,151 @@
         <a class="ks-link ks-navlink" href="index.html#produtos" style="color:inherit;text-decoration:none;transition:color .3s;">Produtos</a>
         <a class="ks-link ks-navlink" href="index.html#sobre" style="color:inherit;text-decoration:none;transition:color .3s;">Sobre</a>
       </nav>
-      <a href="contato.html" class="ks-btn-primary" style="display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,#FFB020,#FF6A00);color:#1a0f06;font-weight:700;font-size:15px;padding:12px 22px;border-radius:999px;text-decoration:none;box-shadow:0 10px 30px rgba(255,106,0,0.35);">Agendar Reunião <span style="font-size:17px;">→</span></a>
+      <a href="contato.html" class="ks-btn-primary ks-header-cta" style="display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,#FFB020,#FF6A00);color:#1a0f06;font-weight:700;font-size:15px;padding:12px 22px;border-radius:999px;text-decoration:none;box-shadow:0 10px 30px rgba(255,106,0,0.35);flex-shrink:0;">Agendar Reunião <span style="font-size:17px;">→</span></a>
+      <button class="ks-hamburger" id="ks-hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section style="position:relative;padding:180px 0 70px;overflow:hidden;">
-    <div class="ks-parallax" data-speed="0.14" style="position:absolute;top:-140px;left:calc(50% - 480px);width:960px;height:680px;background:radial-gradient(circle,rgba(255,122,0,0.26),transparent 66%);filter:blur(20px);pointer-events:none;animation:ksPulse 7s ease-in-out infinite;"></div>
+  <!-- ===== MOBILE NAV ===== -->
+  <nav class="ks-mobile-nav" id="ks-mobile-nav" aria-hidden="true">
+    <a class="ks-mnav-link" href="servicos.html">Serviços</a>
+    <a class="ks-mnav-link" href="index.html#stacks">Stacks</a>
+    <a class="ks-mnav-link" href="index.html#produtos">Produtos</a>
+    <a class="ks-mnav-link" href="index.html#sobre">Sobre</a>
+    <a class="ks-mnav-cta" href="contato.html">Agendar Reunião →</a>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section style="position:relative;padding:170px 0 64px;overflow:hidden;">
+    <div style="position:absolute;top:-140px;left:calc(50% - 480px);width:960px;height:680px;background:radial-gradient(circle,rgba(255,122,0,0.26),transparent 66%);filter:blur(20px);pointer-events:none;animation:ksPulse 7s ease-in-out infinite;"></div>
     <div class="ks-section-pad" style="position:relative;max-width:1000px;margin:0 auto;padding:0 48px;text-align:center;">
       <div class="ks-reveal" data-reveal="up" style="font-size:13px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#FF8A2A;margin-bottom:18px;">Serviços</div>
-      <h1 class="ks-h1 ks-reveal" data-reveal="up" data-delay="80" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:66px;line-height:1.06;letter-spacing:-0.035em;color:#fff;">Tudo o que seu produto digital precisa, em um só lugar.</h1>
-      <p class="ks-reveal" data-reveal="up" data-delay="160" style="max-width:620px;margin:26px auto 0;font-size:19px;line-height:1.6;color:#a99f94;">Da estratégia ao código — equipes especializadas que entregam projetos completos, sem fragmentação e com custo-benefício real.</p>
+      <h1 class="ks-h1 ks-reveal" data-reveal="up" data-delay="80" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:62px;line-height:1.06;letter-spacing:-0.035em;color:#fff;">Tudo o que seu produto digital precisa, em um só lugar.</h1>
+      <p class="ks-hero-p ks-reveal" data-reveal="up" data-delay="160" style="max-width:620px;margin:24px auto 0;font-size:19px;line-height:1.6;color:#a99f94;">Da estratégia ao código — equipes especializadas que entregam projetos completos, sem fragmentação e com custo-benefício real.</p>
     </div>
   </section>
 
-  <!-- SERVICE BLOCKS -->
-  <section class="ks-section-pad" style="max-width:1180px;margin:0 auto;padding:40px 48px 90px;">
-    <div style="display:flex;flex-direction:column;gap:22px;">
+  <!-- ===== SERVICE BLOCKS ===== -->
+  <section class="ks-section-pad" style="max-width:1180px;margin:0 auto;padding:28px 48px 90px;">
+    <div style="display:flex;flex-direction:column;gap:20px;">
 
-      <div class="ks-srv ks-srv-row ks-reveal" data-reveal="up" style="display:grid;grid-template-columns:0.9fr 1.1fr;gap:40px;align-items:center;padding:44px;border:1px solid rgba(255,255,255,0.08);border-radius:24px;background:#16110d;">
+      <div class="ks-srv ks-srv-row ks-srv-card ks-reveal" data-reveal="up" style="display:grid;grid-template-columns:0.9fr 1.1fr;gap:36px;align-items:center;padding:42px;border:1px solid rgba(255,255,255,0.08);border-radius:24px;background:#16110d;">
         <div>
-          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:#FF8A2A;letter-spacing:0.06em;">01 — WEB</div>
-          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:32px;color:#fff;margin:12px 0 14px;letter-spacing:-0.02em;">Sites Institucionais</h2>
-          <p style="font-size:16px;line-height:1.7;color:#a39a8f;">Sites de alta performance com design sob medida, focados em experiência e conversão para fortalecer a presença digital da sua marca.</p>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#FF8A2A;letter-spacing:0.06em;">01 — WEB</div>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:30px;color:#fff;margin:12px 0 12px;letter-spacing:-0.02em;">Sites Institucionais</h2>
+          <p style="font-size:15px;line-height:1.7;color:#a39a8f;">Sites de alta performance com design sob medida, focados em experiência e conversão para fortalecer a presença digital da sua marca.</p>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Design responsivo</div>
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Performance 90+</div>
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">SEO técnico</div>
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">CMS editável</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Design responsivo</div>
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Performance 90+</div>
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">SEO técnico</div>
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">CMS editável</div>
         </div>
       </div>
 
-      <div class="ks-srv ks-srv-row ks-reveal" data-reveal="up" style="display:grid;grid-template-columns:0.9fr 1.1fr;gap:40px;align-items:center;padding:44px;border:1px solid rgba(255,255,255,0.08);border-radius:24px;background:#16110d;">
+      <div class="ks-srv ks-srv-row ks-srv-card ks-reveal" data-reveal="up" style="display:grid;grid-template-columns:0.9fr 1.1fr;gap:36px;align-items:center;padding:42px;border:1px solid rgba(255,255,255,0.08);border-radius:24px;background:#16110d;">
         <div>
-          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:#FF8A2A;letter-spacing:0.06em;">02 — MOBILE</div>
-          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:32px;color:#fff;margin:12px 0 14px;letter-spacing:-0.02em;">Aplicativos Mobile</h2>
-          <p style="font-size:16px;line-height:1.7;color:#a39a8f;">Apps nativos e multiplataforma para iOS e Android, construídos com tecnologias modernas para garantir estabilidade, escala e excelente experiência.</p>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#FF8A2A;letter-spacing:0.06em;">02 — MOBILE</div>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:30px;color:#fff;margin:12px 0 12px;letter-spacing:-0.02em;">Aplicativos Mobile</h2>
+          <p style="font-size:15px;line-height:1.7;color:#a39a8f;">Apps nativos e multiplataforma para iOS e Android, construídos com tecnologias modernas para garantir estabilidade, escala e excelente experiência.</p>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">React Native</div>
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Push & Offline</div>
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Publicação nas lojas</div>
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Integrações API</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">React Native</div>
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Push & Offline</div>
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Publicação nas lojas</div>
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Integrações API</div>
         </div>
       </div>
 
-      <div class="ks-srv ks-srv-row ks-reveal" data-reveal="up" style="display:grid;grid-template-columns:0.9fr 1.1fr;gap:40px;align-items:center;padding:44px;border:1px solid rgba(255,140,0,0.22);border-radius:24px;background:linear-gradient(150deg,rgba(255,122,0,0.10),#16110d 55%);">
+      <div class="ks-srv ks-srv-row ks-srv-card ks-reveal" data-reveal="up" style="display:grid;grid-template-columns:0.9fr 1.1fr;gap:36px;align-items:center;padding:42px;border:1px solid rgba(255,140,0,0.22);border-radius:24px;background:linear-gradient(150deg,rgba(255,122,0,0.10),#16110d 55%);">
         <div>
-          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:#FF8A2A;letter-spacing:0.06em;">03 — SISTEMAS</div>
-          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:32px;color:#fff;margin:12px 0 14px;letter-spacing:-0.02em;">ERPs & Sistemas</h2>
-          <p style="font-size:16px;line-height:1.7;color:#bcb2a7;">Sistemas de gestão sob medida que automatizam processos, integram operações e dão controle total e inteligência de dados para o seu negócio.</p>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#FF8A2A;letter-spacing:0.06em;">03 — SISTEMAS</div>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:30px;color:#fff;margin:12px 0 12px;letter-spacing:-0.02em;">ERPs & Sistemas</h2>
+          <p style="font-size:15px;line-height:1.7;color:#bcb2a7;">Sistemas de gestão sob medida que automatizam processos, integram operações e dão controle total e inteligência de dados para o seu negócio.</p>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Dashboards & BI</div>
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Automação</div>
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Controle de acesso</div>
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Integrações ERP</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Dashboards & BI</div>
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Automação</div>
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Controle de acesso</div>
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Integrações ERP</div>
         </div>
       </div>
 
-      <div class="ks-srv ks-srv-row ks-reveal" data-reveal="up" style="display:grid;grid-template-columns:0.9fr 1.1fr;gap:40px;align-items:center;padding:44px;border:1px solid rgba(255,255,255,0.08);border-radius:24px;background:#16110d;">
+      <div class="ks-srv ks-srv-row ks-srv-card ks-reveal" data-reveal="up" style="display:grid;grid-template-columns:0.9fr 1.1fr;gap:36px;align-items:center;padding:42px;border:1px solid rgba(255,255,255,0.08);border-radius:24px;background:#16110d;">
         <div>
-          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:#FF8A2A;letter-spacing:0.06em;">04 — COMÉRCIO</div>
-          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:32px;color:#fff;margin:12px 0 14px;letter-spacing:-0.02em;">E-commerce</h2>
-          <p style="font-size:16px;line-height:1.7;color:#a39a8f;">Lojas virtuais completas e seguras, com plataformas robustas e integrações de pagamento e logística para maximizar suas vendas online.</p>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#FF8A2A;letter-spacing:0.06em;">04 — COMÉRCIO</div>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:30px;color:#fff;margin:12px 0 12px;letter-spacing:-0.02em;">E-commerce</h2>
+          <p style="font-size:15px;line-height:1.7;color:#a39a8f;">Lojas virtuais completas e seguras, com plataformas robustas e integrações de pagamento e logística para maximizar suas vendas online.</p>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Shopify / headless</div>
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Checkout otimizado</div>
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Pagamentos</div>
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Gestão de estoque</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Shopify / headless</div>
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Checkout otimizado</div>
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Pagamentos</div>
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Gestão de estoque</div>
         </div>
       </div>
 
-      <div class="ks-srv ks-srv-row ks-reveal" data-reveal="up" style="display:grid;grid-template-columns:0.9fr 1.1fr;gap:40px;align-items:center;padding:44px;border:1px solid rgba(255,255,255,0.08);border-radius:24px;background:#16110d;">
+      <div class="ks-srv ks-srv-row ks-srv-card ks-reveal" data-reveal="up" style="display:grid;grid-template-columns:0.9fr 1.1fr;gap:36px;align-items:center;padding:42px;border:1px solid rgba(255,255,255,0.08);border-radius:24px;background:#16110d;">
         <div>
-          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:#FF8A2A;letter-spacing:0.06em;">05 — DESIGN</div>
-          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:32px;color:#fff;margin:12px 0 14px;letter-spacing:-0.02em;">UX/UI & Identidade Visual</h2>
-          <p style="font-size:16px;line-height:1.7;color:#a39a8f;">Interfaces intuitivas e marcas memoráveis. Projetamos a jornada do usuário e a identidade que conecta a sua empresa ao público certo.</p>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#FF8A2A;letter-spacing:0.06em;">05 — DESIGN</div>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:30px;color:#fff;margin:12px 0 12px;letter-spacing:-0.02em;">UX/UI & Identidade Visual</h2>
+          <p style="font-size:15px;line-height:1.7;color:#a39a8f;">Interfaces intuitivas e marcas memoráveis. Projetamos a jornada do usuário e a identidade que conecta a sua empresa ao público certo.</p>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Pesquisa & UX</div>
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Design System</div>
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Identidade visual</div>
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Protótipos</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Pesquisa & UX</div>
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Design System</div>
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Identidade visual</div>
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Protótipos</div>
         </div>
       </div>
 
-      <div class="ks-srv ks-srv-row ks-reveal" data-reveal="up" style="display:grid;grid-template-columns:0.9fr 1.1fr;gap:40px;align-items:center;padding:44px;border:1px solid rgba(255,255,255,0.08);border-radius:24px;background:#16110d;">
+      <div class="ks-srv ks-srv-row ks-srv-card ks-reveal" data-reveal="up" style="display:grid;grid-template-columns:0.9fr 1.1fr;gap:36px;align-items:center;padding:42px;border:1px solid rgba(255,255,255,0.08);border-radius:24px;background:#16110d;">
         <div>
-          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:#FF8A2A;letter-spacing:0.06em;">06 — CRESCIMENTO</div>
-          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:32px;color:#fff;margin:12px 0 14px;letter-spacing:-0.02em;">SEO & Performance</h2>
-          <p style="font-size:16px;line-height:1.7;color:#a39a8f;">Posicionamento nas primeiras páginas do Google com estratégia técnica de SEO e otimização contínua para gerar tráfego qualificado.</p>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#FF8A2A;letter-spacing:0.06em;">06 — CRESCIMENTO</div>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:30px;color:#fff;margin:12px 0 12px;letter-spacing:-0.02em;">SEO & Performance</h2>
+          <p style="font-size:15px;line-height:1.7;color:#a39a8f;">Posicionamento nas primeiras páginas do Google com estratégia técnica de SEO e otimização contínua para gerar tráfego qualificado.</p>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">SEO técnico</div>
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Core Web Vitals</div>
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Conteúdo & SERP</div>
-          <div style="padding:16px 18px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;">Analytics</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">SEO técnico</div>
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Core Web Vitals</div>
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Conteúdo & SERP</div>
+          <div class="ks-feat-tag" style="padding:14px 16px;border:1px solid rgba(255,255,255,0.07);border-radius:14px;background:#0f0c0a;font-size:14px;color:#cabfb3;min-height:44px;display:flex;align-items:center;">Analytics</div>
         </div>
       </div>
 
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="ks-section-pad" style="max-width:1280px;margin:0 auto;padding:0 48px 110px;">
-    <div class="ks-reveal" data-reveal="up" style="position:relative;border-radius:30px;overflow:hidden;border:1px solid rgba(255,140,0,0.28);background:linear-gradient(150deg,#1c1410,#0f0c0a 60%);padding:72px 56px;text-align:center;">
-      <div style="position:absolute;top:-160px;left:50%;transform:translateX(-50%);width:760px;height:520px;background:radial-gradient(circle,rgba(255,122,0,0.30),transparent 68%);filter:blur(30px);pointer-events:none;animation:ksPulse 6s ease-in-out infinite;"></div>
-      <div style="position:relative;">
-        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:44px;line-height:1.1;letter-spacing:-0.03em;color:#fff;max-width:640px;margin:0 auto;">Não sabe por onde começar?</h2>
-        <p style="margin:20px auto 34px;max-width:520px;font-size:18px;line-height:1.6;color:#bcb2a7;">Indicamos apenas o que o seu projeto realmente precisa. Conte sua ideia e montamos o plano ideal.</p>
-        <a href="contato.html" class="ks-btn-primary" style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#FFB020,#FF6A00);color:#1a0f06;font-weight:700;font-size:17px;padding:18px 36px;border-radius:999px;text-decoration:none;box-shadow:0 16px 50px rgba(255,106,0,0.45);">Agendar Reunião <span style="font-size:18px;">→</span></a>
+  <!-- ===== CTA ===== -->
+  <section class="ks-section-pad" style="max-width:1280px;margin:0 auto;padding:0 48px 96px;">
+    <div class="ks-reveal" data-reveal="up">
+      <div class="ks-cta-box" style="position:relative;border-radius:30px;overflow:hidden;border:1px solid rgba(255,140,0,0.28);background:linear-gradient(150deg,#1c1410,#0f0c0a 60%);padding:72px 56px;text-align:center;">
+        <div style="position:absolute;top:-160px;left:50%;transform:translateX(-50%);width:760px;height:520px;background:radial-gradient(circle,rgba(255,122,0,0.30),transparent 68%);filter:blur(30px);pointer-events:none;animation:ksPulse 6s ease-in-out infinite;"></div>
+        <div style="position:relative;">
+          <h2 class="ks-cta-h2" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:44px;line-height:1.1;letter-spacing:-0.03em;color:#fff;max-width:640px;margin:0 auto;">Não sabe por onde começar?</h2>
+          <p class="ks-cta-p" style="margin:20px auto 34px;max-width:520px;font-size:18px;line-height:1.6;color:#bcb2a7;">Indicamos apenas o que o seu projeto realmente precisa. Conte sua ideia e montamos o plano ideal.</p>
+          <a href="contato.html" class="ks-btn-primary" style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#FFB020,#FF6A00);color:#1a0f06;font-weight:700;font-size:17px;padding:18px 36px;border-radius:999px;text-decoration:none;box-shadow:0 16px 50px rgba(255,106,0,0.45);min-height:56px;">Agendar Reunião <span style="font-size:18px;">→</span></a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- ===== FOOTER ===== -->
   <footer style="border-top:1px solid rgba(255,255,255,0.06);background:#0a0908;">
-    <div class="ks-section-pad" style="max-width:1280px;margin:0 auto;padding:64px 48px 30px;">
+    <div class="ks-section-pad" style="max-width:1280px;margin:0 auto;padding:56px 48px 28px;">
       <div class="ks-footer-grid" style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;">
         <div>
-          <a href="index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;margin-bottom:18px;">
-            <img src="assets/kystone-logo.png" alt="Kystone" style="width:38px;height:38px;border-radius:50%;">
-            <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:22px;color:#fff;">Kystone</span>
+          <a href="index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;margin-bottom:16px;">
+            <img src="assets/kystone-logo.png" alt="Kystone" style="width:36px;height:36px;border-radius:50%;">
+            <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;color:#fff;">Kystone</span>
           </a>
-          <p style="font-size:15px;line-height:1.65;color:#8a8077;max-width:300px;">A base digital que faz seu negócio escalar. Tecnologia, design e estratégia em um só lugar.</p>
+          <p style="font-size:14px;line-height:1.65;color:#8a8077;max-width:300px;">A base digital que faz seu negócio escalar. Tecnologia, design e estratégia em um só lugar.</p>
         </div>
         <div>
-          <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:#cabfb3;margin-bottom:18px;">Navegação</div>
-          <div style="display:flex;flex-direction:column;gap:13px;font-size:15px;">
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:#cabfb3;margin-bottom:16px;">Navegação</div>
+          <div style="display:flex;flex-direction:column;gap:12px;font-size:14px;">
             <a class="ks-link" href="servicos.html" style="color:#8a8077;text-decoration:none;transition:color .3s;">Serviços</a>
             <a class="ks-link" href="index.html#produtos" style="color:#8a8077;text-decoration:none;transition:color .3s;">Produtos</a>
             <a class="ks-link" href="index.html#sobre" style="color:#8a8077;text-decoration:none;transition:color .3s;">Sobre</a>
@@ -186,15 +296,15 @@
           </div>
         </div>
         <div>
-          <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:#cabfb3;margin-bottom:18px;">Contato</div>
-          <div style="display:flex;flex-direction:column;gap:13px;font-size:15px;">
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:#cabfb3;margin-bottom:16px;">Contato</div>
+          <div style="display:flex;flex-direction:column;gap:12px;font-size:14px;">
             <a class="ks-link" href="contato.html" style="color:#8a8077;text-decoration:none;transition:color .3s;">Agendar reunião</a>
             <a class="ks-link" href="https://wa.me/554197113664" target="_blank" rel="noopener" style="color:#8a8077;text-decoration:none;transition:color .3s;">WhatsApp</a>
             <a class="ks-link" href="mailto:kystone.contato@gmail.com" style="color:#8a8077;text-decoration:none;transition:color .3s;">kystone.contato@gmail.com</a>
           </div>
         </div>
       </div>
-      <div style="margin-top:48px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:13px;color:#6b6258;">
+      <div style="margin-top:40px;padding-top:22px;border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:13px;color:#6b6258;">
         <span>© <span id="ks-year"></span> Kystone Group</span>
         <span>Todos os direitos reservados</span>
       </div>
@@ -205,11 +315,20 @@
 <script>
   document.getElementById('ks-year').textContent = new Date().getFullYear();
 
+  var isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
   var header = document.getElementById('ks-header');
-  var parallaxEls = Array.from(document.querySelectorAll('.ks-parallax'));
   var revealEls = [];
   var vh0 = window.innerHeight;
 
+  // ===== HAMBURGER =====
+  var hamburger = document.getElementById('ks-hamburger');
+  var mobileNav = document.getElementById('ks-mobile-nav');
+  function openMenu() { hamburger.classList.add('open'); mobileNav.classList.add('open'); mobileNav.setAttribute('aria-hidden','false'); document.body.style.overflow = 'hidden'; }
+  function closeMenu() { hamburger.classList.remove('open'); mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; }
+  hamburger.addEventListener('click', function() { mobileNav.classList.contains('open') ? closeMenu() : openMenu(); });
+  mobileNav.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeMenu); });
+
+  // ===== SCROLL REVEAL =====
   document.querySelectorAll('.ks-reveal').forEach(function(el) {
     if (el.getBoundingClientRect().top < vh0 * 0.92) return;
     var dir = el.getAttribute('data-reveal');
@@ -221,6 +340,7 @@
     revealEls.push(el);
   });
 
+  // ===== SCROLL =====
   function onScroll() {
     var vh = window.innerHeight;
     for (var i = revealEls.length - 1; i >= 0; i--) {
@@ -231,14 +351,8 @@
         revealEls.splice(i, 1);
       }
     }
-    parallaxEls.forEach(function(el) {
-      var speed = parseFloat(el.dataset.speed || '0.12');
-      var r = el.getBoundingClientRect();
-      var offset = (vh / 2 - (r.top + r.height / 2)) * speed;
-      el.style.transform = 'translate3d(0,' + offset.toFixed(1) + 'px,0)';
-    });
     if (window.scrollY > 24) {
-      header.style.background = 'rgba(13,11,10,0.82)';
+      header.style.background = 'rgba(13,11,10,0.88)';
       header.style.backdropFilter = 'blur(18px)';
       header.style.webkitBackdropFilter = 'blur(18px)';
       header.style.borderBottomColor = 'rgba(255,255,255,0.07)';

@@ -9,41 +9,163 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    /* ===== RESET & BASE ===== */
     *{margin:0;padding:0;box-sizing:border-box;}
     html{scroll-behavior:smooth;}
-    body{margin:0;background:#0d0b0a;}
+    body{margin:0;background:#0d0b0a;overflow-x:hidden;}
     ::selection{background:rgba(255,122,0,0.3);color:#fff;}
+    img{max-width:100%;display:block;}
+
     @keyframes ksPulse{0%,100%{opacity:.55}50%{opacity:.9}}
+
+    /* ===== INTERACTIVE ===== */
     .ks-link:hover{color:#fff !important;}
     .ks-navlink{position:relative;}
     .ks-navlink::after{content:'';position:absolute;left:0;bottom:-6px;height:2px;width:0;background:linear-gradient(90deg,#FFB020,#FF6A00);transition:width .35s cubic-bezier(.22,1,.36,1);}
     .ks-navlink:hover::after{width:100%;}
     .ks-btn-primary{transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s;}
     .ks-btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 50px rgba(255,106,0,0.5) !important;}
-    .ks-input{width:100%;background:#0f0c0a;border:1px solid rgba(255,255,255,0.1);border-radius:13px;padding:15px 16px;color:#f4efe9;font-family:'Manrope',sans-serif;font-size:15px;outline:none;transition:border-color .3s,background .3s;}
+
+    /* ===== FORM ===== */
+    .ks-input{
+      width:100%;
+      background:#0f0c0a;
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:13px;
+      padding:15px 16px;
+      color:#f4efe9;
+      font-family:'Manrope',sans-serif;
+      font-size:16px; /* 16px prevents iOS Safari zoom */
+      outline:none;
+      transition:border-color .3s,background .3s;
+      -webkit-appearance:none;
+    }
     .ks-input::placeholder{color:#6b6258;}
     .ks-input:focus{border-color:rgba(255,140,0,0.6);background:#13100d;}
-    select.ks-input{appearance:none;cursor:pointer;}
-    .ks-chip{cursor:pointer;padding:11px 16px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;font-size:14px;color:#cabfb3;transition:all .25s;user-select:none;white-space:nowrap;background:transparent;font-family:'Manrope',sans-serif;}
+    select.ks-input{appearance:none;-webkit-appearance:none;cursor:pointer;}
+    textarea.ks-input{line-height:1.6;resize:vertical;}
+    .ks-chip{
+      cursor:pointer;
+      padding:12px 16px;
+      border:1px solid rgba(255,255,255,0.12);
+      border-radius:999px;
+      font-size:14px;
+      color:#cabfb3;
+      transition:all .25s;
+      user-select:none;
+      white-space:nowrap;
+      background:transparent;
+      font-family:'Manrope',sans-serif;
+      min-height:44px;
+      display:inline-flex;
+      align-items:center;
+    }
     .ks-chip:hover{border-color:rgba(255,140,0,0.4);color:#fff;}
     .ks-chip.active{border-color:rgba(255,140,0,0.6);color:#fff;background:rgba(255,122,0,0.16);}
+
+    /* ===== HAMBURGER ===== */
+    .ks-hamburger{
+      display:none;
+      flex-direction:column;
+      gap:5px;
+      cursor:pointer;
+      padding:10px 6px;
+      background:none;
+      border:none;
+      z-index:201;
+      flex-shrink:0;
+    }
+    .ks-hamburger span{
+      width:22px;height:2px;
+      background:#f4efe9;
+      border-radius:2px;
+      display:block;
+      transition:all .35s cubic-bezier(.22,1,.36,1);
+    }
+    .ks-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+    .ks-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+    .ks-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+    /* ===== MOBILE NAV ===== */
+    .ks-mobile-nav{
+      position:fixed;inset:0;
+      z-index:200;
+      background:rgba(10,9,8,0.98);
+      backdrop-filter:blur(24px);
+      -webkit-backdrop-filter:blur(24px);
+      display:flex;
+      flex-direction:column;
+      align-items:stretch;
+      justify-content:center;
+      padding:80px 28px 56px;
+      transform:translateX(100%);
+      transition:transform .42s cubic-bezier(.22,1,.36,1);
+      pointer-events:none;
+    }
+    .ks-mobile-nav.open{
+      transform:none;
+      pointer-events:all;
+    }
+    .ks-mnav-link{
+      display:block;
+      font-family:'Space Grotesk',sans-serif;
+      font-weight:600;
+      font-size:28px;
+      color:#b4aaa0;
+      text-decoration:none;
+      padding:17px 0;
+      letter-spacing:-0.02em;
+      border-bottom:1px solid rgba(255,255,255,0.07);
+      transition:color .2s;
+    }
+    .ks-mnav-link:active,.ks-mnav-link:focus{color:#fff;outline:none;}
+    .ks-mnav-cta{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      margin-top:32px;
+      background:linear-gradient(135deg,#FFB020,#FF6A00);
+      color:#1a0f06 !important;
+      font-family:'Manrope',sans-serif;
+      font-weight:700;
+      font-size:17px;
+      padding:18px 32px;
+      border-radius:999px;
+      text-decoration:none;
+      border:none !important;
+      box-shadow:0 14px 40px rgba(255,106,0,0.4);
+      min-height:56px;
+    }
+
+    /* ===== BREAKPOINTS ===== */
     @media(max-width:900px){
-      .ks-section-pad{padding-left:24px !important;padding-right:24px !important;}
+      .ks-nav-mid{display:none !important;}
+      .ks-header-cta{display:none !important;}
+      .ks-hamburger{display:flex;}
+      .ks-section-pad{padding-left:20px !important;padding-right:20px !important;}
       .ks-contact-grid{grid-template-columns:1fr !important;}
       .ks-form-row{grid-template-columns:1fr !important;}
-      .ks-nav-mid{display:none !important;}
-      .ks-h1{font-size:44px !important;}
+      .ks-h1{font-size:42px !important;line-height:1.08 !important;}
+      .ks-form-box{padding:28px 22px !important;}
+    }
+    @media(max-width:600px){
+      .ks-section-pad{padding-left:16px !important;padding-right:16px !important;}
+      .ks-h1{font-size:34px !important;}
+      .ks-hero-intro{font-size:16px !important;margin-top:18px !important;}
+      .ks-contact-grid{margin-top:36px !important;}
     }
   </style>
 </head>
 <body>
-<div id="ks-root" style="background:#0d0b0a;color:#f4efe9;font-family:'Manrope',sans-serif;position:relative;width:100%;min-height:100vh;-webkit-font-smoothing:antialiased;">
+<div id="ks-root" style="background:#0d0b0a;color:#f4efe9;font-family:'Manrope',sans-serif;position:relative;width:100%;min-height:100vh;min-height:100svh;-webkit-font-smoothing:antialiased;">
 
+  <!-- ===== HEADER ===== -->
   <header id="ks-header" style="position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:1px solid transparent;transition:background .4s,border-color .4s;">
-    <div class="ks-section-pad" style="max-width:1280px;margin:0 auto;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
-      <a href="index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;">
-        <img src="assets/kystone-logo.png" alt="Kystone" style="width:40px;height:40px;border-radius:50%;box-shadow:0 6px 22px rgba(255,106,0,0.4);">
-        <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:23px;letter-spacing:-0.02em;color:#fff;">Kystone</span>
+    <div class="ks-section-pad" style="max-width:1280px;margin:0 auto;padding:18px 48px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+      <a href="index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;flex-shrink:0;">
+        <img src="assets/kystone-logo.png" alt="Kystone" style="width:38px;height:38px;border-radius:50%;box-shadow:0 6px 22px rgba(255,106,0,0.4);">
+        <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:22px;letter-spacing:-0.02em;color:#fff;">Kystone</span>
       </a>
       <nav class="ks-nav-mid" style="display:flex;align-items:center;gap:38px;font-size:15px;font-weight:500;color:#b4aaa0;">
         <a class="ks-link ks-navlink" href="index.html#servicos" style="color:inherit;text-decoration:none;transition:color .3s;">Serviços</a>
@@ -51,23 +173,37 @@
         <a class="ks-link ks-navlink" href="index.html#produtos" style="color:inherit;text-decoration:none;transition:color .3s;">Produtos</a>
         <a class="ks-link ks-navlink" href="index.html#sobre" style="color:inherit;text-decoration:none;transition:color .3s;">Sobre</a>
       </nav>
-      <a href="index.html" class="ks-btn-primary" style="display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,#FFB020,#FF6A00);color:#1a0f06;font-weight:700;font-size:15px;padding:12px 22px;border-radius:999px;text-decoration:none;box-shadow:0 10px 30px rgba(255,106,0,0.35);">← Voltar ao site</a>
+      <a href="index.html" class="ks-btn-primary ks-header-cta" style="display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,#FFB020,#FF6A00);color:#1a0f06;font-weight:700;font-size:15px;padding:12px 22px;border-radius:999px;text-decoration:none;box-shadow:0 10px 30px rgba(255,106,0,0.35);flex-shrink:0;">← Voltar ao site</a>
+      <button class="ks-hamburger" id="ks-hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
 
-  <section style="position:relative;padding:160px 0 90px;overflow:hidden;">
-    <div class="ks-parallax" data-speed="0.14" style="position:absolute;top:-120px;left:calc(50% - 520px);width:1040px;height:680px;background:radial-gradient(circle,rgba(255,122,0,0.22),transparent 66%);filter:blur(20px);pointer-events:none;animation:ksPulse 7s ease-in-out infinite;"></div>
+  <!-- ===== MOBILE NAV ===== -->
+  <nav class="ks-mobile-nav" id="ks-mobile-nav" aria-hidden="true">
+    <a class="ks-mnav-link" href="index.html#servicos">Serviços</a>
+    <a class="ks-mnav-link" href="index.html#stacks">Stacks</a>
+    <a class="ks-mnav-link" href="index.html#produtos">Produtos</a>
+    <a class="ks-mnav-link" href="index.html#sobre">Sobre</a>
+    <a class="ks-mnav-cta" href="index.html">← Voltar ao site</a>
+  </nav>
+
+  <!-- ===== HERO + FORM ===== -->
+  <section style="position:relative;padding:140px 0 90px;overflow:hidden;">
+    <div style="position:absolute;top:-120px;left:calc(50% - 520px);width:1040px;height:680px;background:radial-gradient(circle,rgba(255,122,0,0.22),transparent 66%);filter:blur(20px);pointer-events:none;animation:ksPulse 7s ease-in-out infinite;"></div>
+
     <div class="ks-section-pad" style="position:relative;max-width:1180px;margin:0 auto;padding:0 48px;">
-      <div style="text-align:center;max-width:680px;margin:0 auto 56px;">
+      <div style="text-align:center;max-width:680px;margin:0 auto;">
         <div style="font-size:13px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#FF8A2A;margin-bottom:18px;">Vamos conversar</div>
-        <h1 class="ks-h1" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:60px;line-height:1.06;letter-spacing:-0.035em;color:#fff;">Construa a base do seu próximo projeto.</h1>
-        <p style="max-width:540px;margin:24px auto 0;font-size:18px;line-height:1.6;color:#a99f94;">Conte sua ideia. Respondemos em até 1 dia útil com os próximos passos.</p>
+        <h1 class="ks-h1" style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:58px;line-height:1.06;letter-spacing:-0.035em;color:#fff;">Construa a base do seu próximo projeto.</h1>
+        <p class="ks-hero-intro" style="max-width:540px;margin:24px auto 0;font-size:18px;line-height:1.6;color:#a99f94;">Conte sua ideia. Respondemos em até 1 dia útil com os próximos passos.</p>
       </div>
 
-      <div class="ks-contact-grid" style="display:grid;grid-template-columns:1.5fr 1fr;gap:32px;align-items:start;">
+      <div class="ks-contact-grid" style="display:grid;grid-template-columns:1.5fr 1fr;gap:28px;align-items:start;margin-top:52px;">
 
-        <!-- FORM -->
-        <div style="position:relative;padding:40px;border:1px solid rgba(255,255,255,0.08);border-radius:24px;background:#16110d;">
+        <!-- FORM CARD -->
+        <div class="ks-form-box" style="position:relative;padding:40px;border:1px solid rgba(255,255,255,0.08);border-radius:24px;background:#16110d;">
 
           <!-- Success state -->
           <div id="ks-success" style="display:none;text-align:center;padding:48px 16px;">
@@ -79,60 +215,63 @@
 
           <!-- Form state -->
           <div id="ks-form-wrap">
-            <div class="ks-form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div class="ks-form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
               <div>
                 <label style="display:block;font-size:13px;font-weight:600;color:#cabfb3;margin-bottom:8px;">Nome *</label>
-                <input class="ks-input" id="f-name" name="name" placeholder="Seu nome" type="text">
+                <input class="ks-input" id="f-name" name="name" placeholder="Seu nome" type="text" autocomplete="name">
                 <div class="ks-err" id="err-name" style="font-size:12px;color:#ff8a4a;margin-top:6px;display:none;"></div>
               </div>
               <div>
                 <label style="display:block;font-size:13px;font-weight:600;color:#cabfb3;margin-bottom:8px;">E-mail *</label>
-                <input class="ks-input" id="f-email" name="email" placeholder="voce@empresa.com" type="text">
+                <input class="ks-input" id="f-email" name="email" placeholder="voce@empresa.com" type="email" autocomplete="email" inputmode="email">
                 <div class="ks-err" id="err-email" style="font-size:12px;color:#ff8a4a;margin-top:6px;display:none;"></div>
               </div>
             </div>
-            <div class="ks-form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div class="ks-form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
               <div>
                 <label style="display:block;font-size:13px;font-weight:600;color:#cabfb3;margin-bottom:8px;">Empresa</label>
-                <input class="ks-input" id="f-company" name="company" placeholder="Nome da empresa" type="text">
+                <input class="ks-input" id="f-company" name="company" placeholder="Nome da empresa" type="text" autocomplete="organization">
               </div>
               <div>
                 <label style="display:block;font-size:13px;font-weight:600;color:#cabfb3;margin-bottom:8px;">WhatsApp</label>
-                <input class="ks-input" id="f-phone" name="phone" placeholder="(00) 00000-0000" type="text">
+                <input class="ks-input" id="f-phone" name="phone" placeholder="(41) 99999-9999" type="tel" autocomplete="tel" inputmode="tel">
               </div>
             </div>
-            <div style="margin-bottom:18px;">
+            <div style="margin-bottom:16px;">
               <label style="display:block;font-size:13px;font-weight:600;color:#cabfb3;margin-bottom:10px;">O que você precisa?</label>
-              <div id="ks-chips" style="display:flex;flex-wrap:wrap;gap:10px;"></div>
+              <div id="ks-chips" style="display:flex;flex-wrap:wrap;gap:9px;"></div>
             </div>
-            <div style="margin-bottom:18px;">
+            <div style="margin-bottom:16px;">
               <label style="display:block;font-size:13px;font-weight:600;color:#cabfb3;margin-bottom:8px;">Orçamento estimado</label>
-              <select class="ks-input" id="f-budget" name="budget">
-                <option value="">Selecione uma faixa</option>
-                <option value="ate-10k">Até R$ 10 mil</option>
-                <option value="10-30k">R$ 10 mil – R$ 30 mil</option>
-                <option value="30-80k">R$ 30 mil – R$ 80 mil</option>
-                <option value="80k+">Acima de R$ 80 mil</option>
-                <option value="indefinido">Ainda não sei</option>
-              </select>
+              <div style="position:relative;">
+                <select class="ks-input" id="f-budget" name="budget">
+                  <option value="">Selecione uma faixa</option>
+                  <option value="ate-10k">Até R$ 10 mil</option>
+                  <option value="10-30k">R$ 10 mil – R$ 30 mil</option>
+                  <option value="30-80k">R$ 30 mil – R$ 80 mil</option>
+                  <option value="80k+">Acima de R$ 80 mil</option>
+                  <option value="indefinido">Ainda não sei</option>
+                </select>
+                <span style="position:absolute;right:16px;top:50%;transform:translateY(-50%);color:#8a8077;pointer-events:none;font-size:12px;">▼</span>
+              </div>
             </div>
-            <div style="margin-bottom:24px;">
+            <div style="margin-bottom:22px;">
               <label style="display:block;font-size:13px;font-weight:600;color:#cabfb3;margin-bottom:8px;">Conte sobre o projeto *</label>
-              <textarea class="ks-input" id="f-message" name="message" placeholder="Descreva sua ideia, objetivos e prazos..." style="min-height:120px;resize:vertical;line-height:1.6;"></textarea>
+              <textarea class="ks-input" id="f-message" name="message" placeholder="Descreva sua ideia, objetivos e prazos..." style="min-height:120px;"></textarea>
               <div class="ks-err" id="err-message" style="font-size:12px;color:#ff8a4a;margin-top:6px;display:none;"></div>
             </div>
-            <button id="ks-submit" class="ks-btn-primary" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#FFB020,#FF6A00);color:#1a0f06;font-weight:700;font-size:16px;font-family:'Manrope',sans-serif;padding:17px 24px;border-radius:13px;border:none;cursor:pointer;box-shadow:0 14px 40px rgba(255,106,0,0.35);">Enviar mensagem <span style="font-size:18px;">→</span></button>
+            <button id="ks-submit" class="ks-btn-primary" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#FFB020,#FF6A00);color:#1a0f06;font-weight:700;font-size:16px;font-family:'Manrope',sans-serif;padding:18px 24px;border-radius:13px;border:none;cursor:pointer;box-shadow:0 14px 40px rgba(255,106,0,0.35);min-height:56px;">Enviar mensagem <span style="font-size:18px;">→</span></button>
           </div>
         </div>
 
         <!-- SIDEBAR -->
-        <div style="display:flex;flex-direction:column;gap:16px;">
+        <div style="display:flex;flex-direction:column;gap:14px;">
           <div style="padding:26px;border:1px solid rgba(255,255,255,0.08);border-radius:20px;background:#16110d;">
-            <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:#FF8A2A;margin-bottom:18px;">Contato direto</div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:#FF8A2A;margin-bottom:18px;">Contato direto</div>
             <div style="display:flex;flex-direction:column;gap:18px;">
               <div>
                 <div style="font-size:13px;color:#8a8077;margin-bottom:4px;">E-mail</div>
-                <a href="mailto:kystone.contato@gmail.com" style="font-size:16px;color:#f4efe9;font-weight:500;text-decoration:none;">kystone.contato@gmail.com</a>
+                <a href="mailto:kystone.contato@gmail.com" style="font-size:15px;color:#f4efe9;font-weight:500;text-decoration:none;word-break:break-all;">kystone.contato@gmail.com</a>
               </div>
               <div>
                 <div style="font-size:13px;color:#8a8077;margin-bottom:4px;">WhatsApp</div>
@@ -140,7 +279,7 @@
               </div>
               <div>
                 <div style="font-size:13px;color:#8a8077;margin-bottom:4px;">Atendimento</div>
-                <div style="font-size:16px;color:#f4efe9;font-weight:500;">Seg – Sex · 9h às 18h</div>
+                <div style="font-size:15px;color:#f4efe9;font-weight:500;">Seg – Sex · 9h às 18h</div>
               </div>
             </div>
           </div>
@@ -152,10 +291,10 @@
             <p style="font-size:14px;line-height:1.6;color:#bcb2a7;">Retornamos todos os contatos em até <strong style="color:#fff;">1 dia útil</strong>, com uma proposta clara e transparente.</p>
           </div>
           <div style="padding:26px;border:1px solid rgba(255,255,255,0.08);border-radius:20px;background:#16110d;">
-            <div style="display:flex;flex-direction:column;gap:12px;">
-              <div style="display:flex;align-items:center;gap:12px;font-size:15px;color:#cabfb3;"><span style="color:#FF8A2A;font-weight:700;flex-shrink:0;">↳</span> Sem compromisso</div>
-              <div style="display:flex;align-items:center;gap:12px;font-size:15px;color:#cabfb3;"><span style="color:#FF8A2A;font-weight:700;flex-shrink:0;">↳</span> Orçamento transparente</div>
-              <div style="display:flex;align-items:center;gap:12px;font-size:15px;color:#cabfb3;"><span style="color:#FF8A2A;font-weight:700;flex-shrink:0;">↳</span> Plano sob medida</div>
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <div style="display:flex;align-items:center;gap:12px;font-size:15px;color:#cabfb3;min-height:44px;"><span style="color:#FF8A2A;font-weight:700;flex-shrink:0;">↳</span> Sem compromisso</div>
+              <div style="display:flex;align-items:center;gap:12px;font-size:15px;color:#cabfb3;min-height:44px;"><span style="color:#FF8A2A;font-weight:700;flex-shrink:0;">↳</span> Orçamento transparente</div>
+              <div style="display:flex;align-items:center;gap:12px;font-size:15px;color:#cabfb3;min-height:44px;"><span style="color:#FF8A2A;font-weight:700;flex-shrink:0;">↳</span> Plano sob medida</div>
             </div>
           </div>
         </div>
@@ -164,6 +303,7 @@
     </div>
   </section>
 
+  <!-- ===== FOOTER ===== -->
   <footer style="border-top:1px solid rgba(255,255,255,0.06);background:#0a0908;">
     <div class="ks-section-pad" style="max-width:1280px;margin:0 auto;padding:48px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;align-items:center;">
       <a href="index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;">
@@ -178,20 +318,21 @@
 <script>
   document.getElementById('ks-year').textContent = new Date().getFullYear();
 
-  // Header scroll
+  var isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
   var header = document.getElementById('ks-header');
-  var parallaxEls = Array.from(document.querySelectorAll('.ks-parallax'));
 
+  // ===== HAMBURGER =====
+  var hamburger = document.getElementById('ks-hamburger');
+  var mobileNav = document.getElementById('ks-mobile-nav');
+  function openMenu() { hamburger.classList.add('open'); mobileNav.classList.add('open'); mobileNav.setAttribute('aria-hidden','false'); document.body.style.overflow = 'hidden'; }
+  function closeMenu() { hamburger.classList.remove('open'); mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; }
+  hamburger.addEventListener('click', function() { mobileNav.classList.contains('open') ? closeMenu() : openMenu(); });
+  mobileNav.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeMenu); });
+
+  // ===== SCROLL =====
   function onScroll() {
-    var vh = window.innerHeight;
-    parallaxEls.forEach(function(el) {
-      var speed = parseFloat(el.dataset.speed || '0.12');
-      var r = el.getBoundingClientRect();
-      var offset = (vh / 2 - (r.top + r.height / 2)) * speed;
-      el.style.transform = 'translate3d(0,' + offset.toFixed(1) + 'px,0)';
-    });
     if (window.scrollY > 24) {
-      header.style.background = 'rgba(13,11,10,0.82)';
+      header.style.background = 'rgba(13,11,10,0.88)';
       header.style.backdropFilter = 'blur(18px)';
       header.style.webkitBackdropFilter = 'blur(18px)';
       header.style.borderBottomColor = 'rgba(255,255,255,0.07)';
@@ -205,11 +346,10 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Service chips
+  // ===== SERVICE CHIPS =====
   var SERVICES = ['Site', 'Aplicativo', 'ERP / Sistema', 'E-commerce', 'UX/UI Design', 'SEO'];
   var selectedServices = {};
   var chipsEl = document.getElementById('ks-chips');
-
   SERVICES.forEach(function(label) {
     var btn = document.createElement('button');
     btn.className = 'ks-chip';
@@ -221,7 +361,7 @@
     chipsEl.appendChild(btn);
   });
 
-  // Form validation & submit
+  // ===== FORM =====
   function showErr(id, msg) {
     var el = document.getElementById(id);
     el.textContent = msg;
@@ -233,31 +373,20 @@
     var email = document.getElementById('f-email').value.trim();
     var message = document.getElementById('f-message').value.trim();
     var valid = true;
-
     showErr('err-name', '');
     showErr('err-email', '');
     showErr('err-message', '');
-
     if (!name) { showErr('err-name', 'Informe seu nome'); valid = false; }
     if (!email) { showErr('err-email', 'Informe seu e-mail'); valid = false; }
     else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { showErr('err-email', 'E-mail inválido'); valid = false; }
     if (!message) { showErr('err-message', 'Conte um pouco sobre o projeto'); valid = false; }
-
     if (!valid) return;
 
-    // Build WhatsApp message
     var company = document.getElementById('f-company').value.trim();
     var phone = document.getElementById('f-phone').value.trim();
     var budget = document.getElementById('f-budget').value;
     var services = Object.keys(selectedServices).filter(function(k) { return selectedServices[k]; }).join(', ');
-
-    var budgetLabels = {
-      'ate-10k': 'Até R$ 10 mil',
-      '10-30k': 'R$ 10 mil – R$ 30 mil',
-      '30-80k': 'R$ 30 mil – R$ 80 mil',
-      '80k+': 'Acima de R$ 80 mil',
-      'indefinido': 'Ainda não sei'
-    };
+    var budgetLabels = { 'ate-10k':'Até R$ 10 mil', '10-30k':'R$ 10 mil – R$ 30 mil', '30-80k':'R$ 30 mil – R$ 80 mil', '80k+':'Acima de R$ 80 mil', 'indefinido':'Ainda não sei' };
 
     var wppMsg = '*Novo contato pelo site Kystone*\n\n';
     wppMsg += '*Nome:* ' + name + '\n';
@@ -269,23 +398,16 @@
     wppMsg += '*Mensagem:*\n' + message;
 
     window.open('https://wa.me/554197113664?text=' + encodeURIComponent(wppMsg), '_blank');
-
     document.getElementById('ks-form-wrap').style.display = 'none';
     document.getElementById('ks-success').style.display = 'block';
   });
 
   document.getElementById('ks-reset').addEventListener('click', function() {
-    document.getElementById('f-name').value = '';
-    document.getElementById('f-email').value = '';
-    document.getElementById('f-company').value = '';
-    document.getElementById('f-phone').value = '';
+    ['f-name','f-email','f-company','f-phone','f-message'].forEach(function(id){ document.getElementById(id).value = ''; });
     document.getElementById('f-budget').value = '';
-    document.getElementById('f-message').value = '';
     selectedServices = {};
-    chipsEl.querySelectorAll('.ks-chip').forEach(function(btn) { btn.classList.remove('active'); });
-    showErr('err-name', '');
-    showErr('err-email', '');
-    showErr('err-message', '');
+    chipsEl.querySelectorAll('.ks-chip').forEach(function(btn){ btn.classList.remove('active'); });
+    showErr('err-name',''); showErr('err-email',''); showErr('err-message','');
     document.getElementById('ks-success').style.display = 'none';
     document.getElementById('ks-form-wrap').style.display = 'block';
   });
